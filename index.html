@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Welcome to Akyra LLC </title>
+  <meta charset='utf-8'>
+  <meta name="author" content="" />
+  <meta name="description" content="" />
+  <link rel="stylesheet" href="style.css" type="text/css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="data/posts.js"></script>
+
+</head>
+
+<body>
+  <div id="page" ng-app="myApp" ng-controller="postsCtrl">
+
+    <div id="content" align="center" ng-repeat="p in posts">
+      <table>
+        <tr>
+          <p>
+            {{p.currentdate}}
+          </p>
+        </tr>
+        <tr>
+          <p>
+            A
+          </p>
+        </tr>
+        <tr>
+          <img ng-If="p.img != null" ng-src={{p.img}}>
+        </tr>
+        <tr>
+          <video ng-If="p.vid != null" width="320" height="240" ng-src={{p.vid}} controls>
+          </video>
+        </tr>
+        <tr>
+          <td ng-If="p.unicode != null" ng-bind-html="p.unicode | exposeEmoji"></td>
+          <td>
+            <p>
+              <h1>{{ p.description }}</h1>
+            </p>
+          </td>
+
+        </tr>
+      </table>
+      <p>
+      </p>
+    </div>
+  </div>
+  <script>
+    var app = angular.module('myApp', []);
+    app.controller('postsCtrl', function ($scope) {
+      (function () {
+        $scope.posts = posts
+      })()
+
+    }).filter('exposeEmoji', function ($sce) {
+      return function (val) {
+        val = "&#x" + val + ";";
+        return $sce.trustAsHtml(val);
+      };
+    });;
+  </script>
+</body>
+
+</html>
